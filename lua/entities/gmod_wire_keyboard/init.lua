@@ -55,7 +55,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
-	self:SetUseType(SIMPLE_USE)
+	self:SetUseType(ONOFF_USE)
 
 	self.Inputs = WireLib.CreateInputs(self, { "Kick", "Reset Output String" })
 	self.Outputs = WireLib.CreateOutputs(self, { "Memory", "Output [STRING]", "OutputChar [STRING]", "ActiveKeys [ARRAY]", "User [ENTITY]", "InUse" })
@@ -214,7 +214,8 @@ function ENT:PlayerDetach()
 	self:TriggerOutputs()
 end
 
-function ENT:Use(ply)
+function ENT:Use(ply, _, type)
+	if type ~= USE_OFF then return end
 	if IsValid(self.Pod) then
 		ply:ChatPrint("This keyboard is linked to a pod. Please use the pod instead.")
 		return
